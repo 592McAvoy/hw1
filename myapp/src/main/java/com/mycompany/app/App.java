@@ -9,6 +9,8 @@ import java.io.*;
  */
 public class App 
 {
+	public static Set<String> words = new HashSet<String>();
+	
     public static void main( String[] args )
     {
     	String filename;	
@@ -18,7 +20,10 @@ public class App
     		filename = in.nextLine();
     		boolean read = setDict("D:\\罗宇辰\\作业\\大二下\\软工后端\\hw1\\myapp\\src"
     				                + "\\main\\java\\com\\mycompany\\app\\"+filename);//设置字典
-    		if (read)break;
+    		if (read) {
+    			System.out.println(words);
+    			break;
+    			}
     		System.out.println("Unable to open that file.  Try again.\n\n");
     	}
     	System.out.println( "Done!");
@@ -27,15 +32,15 @@ public class App
     public static boolean setDict(String fileName) {  
         File file = new File(fileName);  
         BufferedReader reader = null;  
-        try {  
-            //System.out.println("以行为单位读取文件内容，一次读一整行：");  
+        try {   
             reader = new BufferedReader(new FileReader(file));  
             String tempString = null;  
             int line = 1;  
             // 一次读入一行，直到读入null为文件结束  
             while ((tempString = reader.readLine()) != null ) {  
                 // 显示行号  
-                System.out.println("line " + line + ": " + tempString);  
+            	words.add(tempString);
+                //System.out.println("line " + line + ": " + tempString);  
                 line++;  
             }  
             reader.close();  
