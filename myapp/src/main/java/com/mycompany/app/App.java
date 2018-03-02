@@ -11,8 +11,8 @@ public class App
 {
 	public static Set<String> dict = new HashSet<String>();//字典
 	public static Set<String> record = new HashSet<String>();//记录替换后的新单词，避免出现无限循环
-	public static Stack<String> result = new Stack<String>();;	//WordLadder的结果
-	public static Queue<Stack<String>> ladder = new LinkedList<Stack<String>>();;//用于存储ladder的队列
+	public static Stack<String> result = new Stack<String>();	//WordLadder的结果
+	public static Queue<Stack<String>> ladder = new LinkedList<Stack<String>>();//用于存储ladder的队列
 	
 	
     public static void main( String[] args )
@@ -57,6 +57,8 @@ public class App
 
     			//处理查找结果
     			boolean find = findLadder(word2);
+    			ladder = new LinkedList<Stack<String>>();
+    			record = new HashSet<String>();
     			if (find) {
     				System.out.println( "A ladder from " + word2 + " back to " + word1 + " :");
     				while (!result.empty()) 
@@ -70,6 +72,7 @@ public class App
     }
     
     public static boolean findLadder(String word2) {
+    	System.out.println("ladder size "+ladder.size());
     	while (ladder.size()>0) {
     		int size = ladder.size();
     		for (int i = 0; i < size; i++) {
@@ -99,6 +102,7 @@ public class App
     				}
     			}
     		}
+    	System.out.println("false!");
     	return false;
     }
     
