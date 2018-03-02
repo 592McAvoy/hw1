@@ -25,14 +25,14 @@ public class App
     		boolean read = setDict("D:\\罗宇辰\\作业\\大二下\\软工后端\\hw1\\myapp\\src"
     				                + "\\main\\java\\com\\mycompany\\app\\"+filename);//设置字典
     		if (read) {
-    			System.out.println(dict);
+    			//System.out.println(dict);
     			break;
     			}
-    		System.out.println("Unable to open that file.  Try again.\n\n");
+    		System.out.println("Unable to open that file.  Try again.\n");
     	}
     	
-    	String word1;//终点单词
-    	String word2;//起点单词
+    	String word1;//起点单词
+    	String word2;//终点单词
     	
     	//从用户处得到起点和终点的单词
     	while (true) {
@@ -53,24 +53,74 @@ public class App
     			Stack<String> ss = new Stack<String>();
     			ss.push(word1);
     			ladder.offer(ss);
+    			record.add(word1);
 
     			//处理查找结果
-    			/*boolean _result = find_ladder(word2);
-    			if (_result) {
-    				System.out.println( "A ladder from " + word2 + " back to " + word1 + " :\n");
-    				while (!result.empty()) {
-    					System.out.println( result.top() + " ");
-    					result.pop();
-    				}
-    				System.out.println("\n\n");
+    			boolean find = findLadder(word2);
+    			if (find) {
+    				System.out.println( "A ladder from " + word2 + " back to " + word1 + " :");
+    				while (!result.empty()) 
+    					System.out.print( result.pop() + " ");    					
+    				System.out.println("\n");
     			}
     			else
-    				System.out.println( "No word ladder found from " + word2 + " back to " + word1 + " .\n\n");
-    				*/
-    		
-    		
+    				System.out.println( "No word ladder found from " + word2 + " back to " + word1 + " .\n"); 				 		
     	}
     	System.out.println( "Have a nice day!");
+    }
+    
+    public static boolean findLadder(String word2) {
+    	while (ladder.size()>0) {
+    		int size = ladder.size();
+    		for (int i = 0; i < size; i++) {
+    			Stack<String> temp = ladder.poll();
+    			String word = temp.peek();
+    			
+    			String ww1 = "";
+				String ww2 = "";
+				String ww3 = "";
+    			
+    			//对这个单词分别进行三种变化：增、删、改
+    			int len = word.length();
+    			for (int j = 0; j <= len; j++){
+    				if(j!=len)
+    					ww3 = word.substring(0, j) + word.substring(j+1);;//删除字母
+    					boolean cc = check(ww3, word2, temp);
+    				for (char ch = 'a'; ch <= 'z'; ch++){    					
+    					ww2 = word.substring(0, j) + ch + word.substring(j);//添加字母
+    					if(j!=len)
+    						ww1 = word.substring(0, j) + ch + word.substring(j+1);	//改变字母					  								
+    
+    					if(	check(ww1, word2, temp)||
+    						check(ww2, word2, temp)||
+    						cc)
+    						return true;
+    					}
+    				}
+    			}
+    		}
+    	return false;
+    }
+    
+    public static boolean check(String word, String target, Stack<String> temp) {
+    	//System.out.println(word + "  " +target);
+    	if(record.contains(word))
+    		return false;
+    	if (word.equals(target)) {
+    		result = (Stack<String>)temp.clone();
+    		result.push(word);
+    		//ladder = queue<stack<string>>();//重置
+    		return true;
+    	}
+    	else if (dict.contains(word)) //新单词是没出现过的有效单词	
+    								  //将这部分wordladder添加到ladder队列中
+    		{
+    			record.add(word);
+    			Stack<String> save = (Stack<String>)temp.clone();
+    			save.push(word);
+    			ladder.offer(save);
+    		}
+    	return false;
     }
     
     public static boolean setDict(String fileName) {  
