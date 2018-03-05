@@ -36,12 +36,14 @@ public class AppTest
         return new TestSuite( AppTest.class );
     }
     
-    static App app = new App();
+    static App app = null;
     
     /**
      * Rigourous Test :-)
      */
-       
+    protected void setUp() throws Exception{
+    	app = new App();
+    } 
     
     public void testSetDict() {
     	assertTrue(app.setDict("D:\\罗宇辰\\作业\\大二下\\软工后端\\hw1\\myapp\\src"
@@ -49,5 +51,18 @@ public class AppTest
     	assertFalse(app.setDict("dictionary.txt"));
     }
     
+    public void testFind() {
+    	app.setDict("D:\\罗宇辰\\作业\\大二下\\软工后端\\hw1\\myapp\\src"
+                + "\\main\\java\\com\\mycompany\\app\\smalldict1.txt");
+    	String word1 = "cat";
+    	Stack<String> ss = new Stack<String>();
+		ss.push(word1);
+		app.ladder.offer(ss);
+		app.record.add(word1);
+		assertTrue(app.findLadder("dog"));
+		app.ladder = new LinkedList<Stack<String>>();
+		app.record = new HashSet<String>();
+		assertFalse(app.findLadder("beauty"));
+    }
 
 }
