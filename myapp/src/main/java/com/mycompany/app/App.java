@@ -72,7 +72,7 @@ public class App
     }
     
     public static boolean findLadder(String word2) {
-    	System.out.println("ladder size "+ladder.size());
+    	//System.out.println("ladder size "+ladder.size());
     	while (ladder.size()>0) {
     		int size = ladder.size();
     		for (int i = 0; i < size; i++) {
